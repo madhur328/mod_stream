@@ -5,15 +5,16 @@ const { promisify } = require('util');
 
 var server = express()
 const port = 3000;
+const hostname = "0.0.0.0"
 const pipeline = promisify(stream.pipeline);
 
 let url = 'https://mnmlist.com/'
 let path = 'html_source'
 
-server.get('/get_source/', (req, res) => {
+server.get(url, (req, res) => {
     let stream = await pipeline(
         got.stream(url),
-        fs.createWriteStream(path + '.html'),
+        process.stdout(),
     )
     res.send(stream)
 })
